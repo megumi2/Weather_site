@@ -263,17 +263,18 @@ def select_place(place):
             return code
 
 place = st.selectbox(label="県を選んでください", options=place_list)
+
 city_code = select_place(place)
 url = ""
 if city_code:
     url = f'https://weather.tsukumijima.net/api/forecast/city/{city_code}'
-try:
-    response = re.get(url)
-    response.raise_for_status()
-except re.exceptions.RequestException as e:
-    print(f'Error:{e}')
-else:
-    weather_json = response.json()
-    weather = weather_json['forecasts'][0]['telop']
-    st.write(weather)
+    try:
+        response = re.get(url)
+        response.raise_for_status()
+    except re.exceptions.RequestException as e:
+        print(f'Error:{e}')
+    else:
+        weather_json = response.json()
+        weather = weather_json['forecasts'][0]['telop']
+        st.write(weather)
 
