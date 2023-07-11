@@ -2,6 +2,7 @@ import streamlit as st
 import requests as re
 import pandas as pd 
 from datetime import datetime
+import pytz
 st.title("天気情報サイト")
 
 place_list =["", 
@@ -276,7 +277,7 @@ if city_code:
     else:
         weather_json = response.json()
         weather = weather_json['forecasts'][0]['telop']
-        now_hour = datetime.now().hour
+        now_hour = datetime.now(pytz.timezone('Asia/Tokyo')).hour
         if 0 <= now_hour and now_hour < 6:
             chanceOfRain = weather_json["forecasts"][0]["chanceOfRain"]["T00_06"]
             chanceOfRain2 = weather_json["forecasts"][0]["chanceOfRain"]["T06_12"]
