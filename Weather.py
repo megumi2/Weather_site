@@ -1,9 +1,6 @@
 import streamlit as st
 import requests as re
 import pandas as pd 
-import matplotlib.pyplot as plt
-import matplotlib
-import altair as alt
 from datetime import datetime
 st.title("天気情報サイト")
 
