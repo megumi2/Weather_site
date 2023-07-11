@@ -284,6 +284,7 @@ if city_code:
             chanceOfRain4 = weather_json["forecasts"][0]["chanceOfRain"]["T18_24"]
             rain_list = [chanceOfRain, chanceOfRain2,chanceOfRain3,chanceOfRain4]
             df = pd.DataFrame(rain_list)
+            df = df.transpose()
             df.index=[place]
             df.columns = ["0~6時", "6~12時", "12~18時", "18~24時"]
             st.dataframe(df)
@@ -293,16 +294,16 @@ if city_code:
             chanceOfRain4 = weather_json["forecasts"][0]["chanceOfRain"]["T18_24"]
             rain_list = [chanceOfRain2, chanceOfRain3, chanceOfRain4]
             df = pd.DataFrame(rain_list)
+            df = df.transpose()
             df.columns = ["6~12時", "12~18時", "18~24時"]
             df.index=[place]
-            st.write(chanceOfRain2)
-            st.write(chanceOfRain3)
-            st.write(chanceOfRain4)
+            st.dataframe(df)
         elif 12 <= now_hour and now_hour < 18:
             chanceOfRain3 = weather_json["forecasts"][0]["chanceOfRain"]["T12_18"]
             chanceOfRain4 = weather_json["forecasts"][0]["chanceOfRain"]["T18_24"]
             rain_list = [chanceOfRain3, chanceOfRain4]
             df = pd.DataFrame(rain_list)
+            df = df.transpose()
             df.columns = ["12~18時", "18~24時"]
             df.index=[place]
             st.dataframe(df)
@@ -310,6 +311,7 @@ if city_code:
             chanceOfRain4 = weather_json["forecasts"][0]["chanceOfRain"]["T18_24"]
             rain_list = [chanceOfRain4]
             df = pd.DataFrame(rain_list)
+            df = df.transpose()
             df.columns = ["18~24時"]
             df.index=[place]
             st.dataframe(df)
