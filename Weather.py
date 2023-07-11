@@ -278,19 +278,19 @@ if city_code:
         weather = weather_json['forecasts'][0]['telop']
         now_hour = datetime.now().hour
         if 0 <= now_hour and now_hour < 6:
-            chanceOfRain = weather_json[0]["chanceOfRain"]["T00_06"]
-            chanceOfRain2 = weather_json[0]["chanceOfRain"]["T06_12"]
-            chanceOfRain3 = weather_json[0]["chanceOfRain"]["T12_18"]
-            chanceOfRain4 = weather_json[0]["chanceOfRain"]["T18_24"]
+            chanceOfRain = weather_json["forecasts"][0]["chanceOfRain"]["T00_06"]
+            chanceOfRain2 = weather_json["forecasts"][0]["chanceOfRain"]["T06_12"]
+            chanceOfRain3 = weather_json["forecasts"][0]["chanceOfRain"]["T12_18"]
+            chanceOfRain4 = weather_json["forecasts"][0]["chanceOfRain"]["T18_24"]
             rain_list = [chanceOfRain, chanceOfRain2,chanceOfRain3,chanceOfRain4]
             df = pd.DataFrame(rain_list)
             df.index=[place]
             df.columns = ["0~6時", "6~12時", "12~18時", "18~24時"]
             st.dataframe(df)
         elif 6 <= now_hour and now_hour < 12:
-            chanceOfRain2 = weather_json[0]["chanceOfRain"]["T06_12"]
-            chanceOfRain3 = weather_json[0]["chanceOfRain"]["T12_18"]
-            chanceOfRain4 = weather_json[0]["chanceOfRain"]["T18_24"]
+            chanceOfRain2 = weather_json["forecasts"][0]["chanceOfRain"]["T06_12"]
+            chanceOfRain3 = weather_json["forecasts"][0]["chanceOfRain"]["T12_18"]
+            chanceOfRain4 = weather_json["forecasts"][0]["chanceOfRain"]["T18_24"]
             rain_list = [chanceOfRain2, chanceOfRain3, chanceOfRain4]
             df = pd.DataFrame(rain_list)
             df.columns = ["6~12時", "12~18時", "18~24時"]
@@ -299,8 +299,8 @@ if city_code:
             st.write(chanceOfRain3)
             st.write(chanceOfRain4)
         elif 12 <= now_hour and now_hour < 18:
-            chanceOfRain3 = weather_json[0]["chanceOfRain"]["T12_18"]
-            chanceOfRain4 = weather_json[0]["chanceOfRain"]["T18_24"]
+            chanceOfRain3 = weather_json["forecasts"][0]["chanceOfRain"]["T12_18"]
+            chanceOfRain4 = weather_json["forecasts"][0]["chanceOfRain"]["T18_24"]
             rain_list = [chanceOfRain3, chanceOfRain4]
             df = pd.DataFrame(rain_list)
             df.columns = ["12~18時", "18~24時"]
