@@ -1,5 +1,10 @@
 import streamlit as st
 import requests as re
+import pandas as pd 
+import matplotlib.pyplot as plt
+import matplotlib
+import altair as alt
+from datetime import datetime
 st.title("天気情報サイト")
 
 place_list =["", 
@@ -102,7 +107,6 @@ place_detail = {"道北":["","稚内", "旭川", "留萌"],
                 "沖縄県":["","那覇", "名護", "久米島", "南大東", "宮古島", "石垣島", "与那国島"]
 
 }
-
 place_code = {"稚内":"011000",
               "旭川":"012010",
               "留萌":"012020",
@@ -248,14 +252,13 @@ place_code = {"稚内":"011000",
                 }
 
 def select_place(place):
-    code = ""
     if place != "" and place == "北海道":
         place_2 = st.selectbox(label="北海道の詳細の場所を選んでください", options=hokkaido_list)
         if place_2 != "":
             place_3 = st.selectbox(label="場所を選んでください", options=place_detail.get(place_2))
             if place_3 != "":
                 code = (place_code.get(place_3)) 
-                return code         
+                return code   
     elif place != "":
         place_3 = st.selectbox(label="場所を選んでください", options=place_detail.get(place))
         if place_3 != "":
@@ -276,5 +279,43 @@ if city_code:
     else:
         weather_json = response.json()
         weather = weather_json['forecasts'][0]['telop']
-        st.write(weather)
+        now_hour = datetime.now().hour
+        if 0 <= now_hour and now_hour < 6:
+            chanceOfRain = weather_json[0]["chanceOfRain"]["T00_06"]
+            chanceOfRain2 = weather_json[0]["chanceOfRain"]["T06_12"]
+            chanceOfRain3 = weather_json[0]["chanceOfRain"]["T12_18"]
+            chanceOfRain4 = weather_json[0]["chanceOfRain"]["T18_24"]
+            rain_list = [chanceOfRain, chanceOfRain2,chanceOfRain3,chanceOfRain4]
+            df = pd.DataFrame(rain_list)
+            df.index=[place]
+            df.columns = ["0~6時", "6~12時", "12~18時", "18~24時"]
+            st.dataframe(df)
+        elif 6 <= now_hour and now_hour < 12:
+            chanceOfRain2 = weather_json[0]["chanceOfRain"]["T06_12"]
+            chanceOfRain3 = weather_json[0]["chanceOfRain"]["T12_18"]
+            chanceOfRain4 = weather_json[0]["chanceOfRain"]["T18_24"]
+            rain_list = [chanceOfRain2, chanceOfRain3, chanceOfRain4]
+            df = pd.DataFrame(rain_list)
+            df.columns = ["6~12時", "12~18時", "18~24時"]
+            df.index=[place]
+            st.write(chanceOfRain2)
+            st.write(chanceOfRain3)
+            st.write(chanceOfRain4)
+        elif 12 <= now_hour and now_hour < 18:
+            chanceOfRain3 = weather_json[0]["chanceOfRain"]["T12_18"]
+            chanceOfRain4 = weather_json[0]["chanceOfRain"]["T18_24"]
+            rain_list = [chanceOfRain3, chanceOfRain4]
+            df = pd.DataFrame(rain_list)
+            df.columns = ["12~18時", "18~24時"]
+            df.index=[place]
+            st.dataframe(df)
+        else:
+            chanceOfRain4 = weather_json["forecasts"][0]["chanceOfRain"]["T18_24"]
+            rain_list = [chanceOfRain4]
+            df = pd.DataFrame(rain_list)
+            df.columns = ["18~24時"]
+            df.index=[place]
+            st.dataframe(df)
 
+ 
+        
